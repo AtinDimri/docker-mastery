@@ -1,0 +1,124 @@
+## 12. Docker Container Lifecycle and Essential Commands
+
+### Understanding `docker run`, `docker stop`, and `docker start`
+
+Consider the following commands:
+
+```powershell
+docker run -d --name demo-nginx nginx:latest
+docker stop demo-nginx
+docker start demo-nginx
+```
+
+What happens:
+
+1. `docker run` creates a new container from the `nginx:latest` image and starts it.
+2. `docker stop` stops the running container but preserves the container and its configuration.
+3. `docker start` starts the same stopped container again. It does not create a new container.
+
+**Key distinction:**
+
+- An image is the template used to create a container.
+- `docker run` creates and starts a new container.
+- `docker start` starts an existing stopped container.
+
+### Essential Docker Commands
+
+| Command                   | What it does                                                                          |
+| ------------------------- | ------------------------------------------------------------------------------------- |
+| `docker run`              | Creates and starts a new container from an image.                                     |
+| `docker stop <name>`      | Stops a running container but keeps it.                                               |
+| `docker start <name>`     | Starts an existing stopped container.                                                 |
+| `docker restart <name>`   | Restarts an existing container.                                                       |
+| `docker rm <name>`        | Removes a stopped container.                                                          |
+| `docker rm -f <name>`     | Force-removes a container, stopping it first if necessary.                            |
+| `docker ps`               | Lists running containers.                                                             |
+| `docker ps -a`            | Lists all containers, including stopped ones.                                         |
+| `docker images`           | Lists locally available images.                                                       |
+| `docker pull nginx`       | Downloads the Nginx image from a registry.                                            |
+| `docker logs <name>`      | Displays the container's logs.                                                        |
+| `docker inspect <name>`   | Displays detailed information about a container.                                      |
+| `docker port <name>`      | Displays the container's published port mappings.                                     |
+| `docker rmi nginx:latest` | Removes the image if no remaining container references it and Docker permits removal. |
+
+### Practical Example: Container Lifecycle
+
+```powershell
+# Create and start a container
+docker run -d --name demo-nginx -p 8080:80 nginx:latest
+
+# Check running containers
+docker ps
+
+# Stop the container
+docker stop demo-nginx
+
+# Verify that it is stopped
+docker ps -a
+
+# Start the same container again
+docker start demo-nginx
+
+# Remove the container
+docker rm -f demo-nginx
+
+# Verify that the container has been removed
+docker ps -a
+```
+
+Note: Port publishing with `-p 8080:80` makes Nginx accessible at `http://localhost:8080` while the container is running.
+
+### What I Learned
+
+Docker images and containers are different objects. A container can be stopped and restarted without creating a new one. Removing a container does not automatically remove its image, so the image can be reused to create another container.
+
+
+## 13. Review of My Milestone 1 Answers
+
+### Question 1: What Problem Does Docker Solve?
+
+**Review: Correct concept**
+
+Docker helps package an application with its dependencies so that it can run consistently across different environments.
+
+However, saying Docker guarantees "zero compatibility issues" is too absolute. The host still needs a compatible environment, and operating-system, CPU architecture, permissions, and networking differences can still matter.
+
+**Improved answer:**
+
+Docker packages an application and its dependencies into an image so it can run consistently across compatible environments, reducing the "it works on my machine" problem.
+
+### Question 2: What Is the Difference Between an Image and a Container?
+
+**Review: Excellent**
+
+The recipe analogy is accurate and useful:
+
+- **Image:** The recipe or blueprint.
+- **Container:** The prepared dish or instance created from that blueprint.
+
+One important detail is that a container does not have to be actively running. It can also be stopped while remaining available to restart.
+
+**Improved answer:**
+
+A Docker image is an immutable template containing the application and its required files and dependencies. A container is an isolated instance created from that image, which can be running or stopped.
+
+### Question 3: What Happens When I Run `docker run nginx`?
+
+**Review: Minor correction**
+
+The overall understanding is correct, but the Docker Engine API does not analyse the command in the way initially described.
+
+The Docker CLI interprets the command and sends a request through the Engine API to the Docker daemon.
+
+**Improved answer:**
+
+The Docker CLI interprets `docker run nginx` and sends a request to the Docker daemon through the Engine API. The daemon checks whether the Nginx image is available locally, pulls it from a registry if necessary, creates a container, and starts it.
+
+### Key Lessons From This Review
+
+1. Docker reduces compatibility problems but does not guarantee that an application will run identically in every environment.
+2. An image is a template; a container is an instance created from that image.
+3. Containers can be running or stopped without being removed.
+4. The Docker CLI communicates with the daemon through the Docker Engine API.
+5. The daemon manages container creation and lifecycle operations and obtains images from a registry when necessary.
+6. Understanding the concepts is more important than memorising commands without knowing what they do.
