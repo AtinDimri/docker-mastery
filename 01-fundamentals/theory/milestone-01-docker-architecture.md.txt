@@ -122,3 +122,12 @@ The Docker CLI interprets `docker run nginx` and sends a request to the Docker d
 4. The Docker CLI communicates with the daemon through the Docker Engine API.
 5. The daemon manages container creation and lifecycle operations and obtains images from a registry when necessary.
 6. Understanding the concepts is more important than memorising commands without knowing what they do.
+
+flowchart TD
+    A[You: PowerShell command] --> B[Docker CLI]
+    B --> C[Docker Engine API]
+    C --> D[Docker daemon: dockerd]
+    D <--> E[Image Registry: Docker Hub]
+    D --> F[Container Runtime]
+    F --> G[Running Container]
+    E -. Provides image .-> D
