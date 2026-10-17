@@ -130,4 +130,52 @@ flowchart TD
     D <--> E[Image Registry: Docker Hub]
     D --> F[Container Runtime]
     F --> G[Running Container]
-    E -. Provides image .-> D
+    E -. Provides image .-> D## 13. Review of My Milestone 1 Answers
+
+### Question 1: What Problem Does Docker Solve?
+
+**Review: Correct concept**
+
+Docker helps package an application with its dependencies so that it can run consistently across different environments.
+
+However, saying Docker guarantees "zero compatibility issues" is too absolute. The host still needs a compatible environment, and operating-system, CPU architecture, permissions, and networking differences can still matter.
+
+**Improved answer:**
+
+Docker packages an application and its dependencies into an image so it can run consistently across compatible environments, reducing the "it works on my machine" problem.
+
+### Question 2: What Is the Difference Between an Image and a Container?
+
+**Review: Excellent**
+
+The recipe analogy is accurate and useful:
+
+- **Image:** The recipe or blueprint.
+- **Container:** The prepared dish or instance created from that blueprint.
+
+One important detail is that a container does not have to be actively running. It can also be stopped while remaining available to restart.
+
+**Improved answer:**
+
+A Docker image is an immutable template containing the application and its required files and dependencies. A container is an isolated instance created from that image, which can be running or stopped.
+
+### Question 3: What Happens When I Run `docker run nginx`?
+
+**Review: Minor correction**
+
+The overall understanding is correct, but the Docker Engine API does not analyse the command in the way initially described.
+
+The Docker CLI interprets the command and sends a request through the Engine API to the Docker daemon.
+
+**Improved answer:**
+
+The Docker CLI interprets `docker run nginx` and sends a request to the Docker daemon through the Engine API. The daemon checks whether the Nginx image is available locally, pulls it from a registry if necessary, creates a container, and starts it.
+
+### Key Lessons From This Review
+
+1. Docker reduces compatibility problems but does not guarantee that an application will run identically in every environment.
+2. An image is a template; a container is an instance created from that image.
+3. Containers can be running or stopped without being removed.
+4. The Docker CLI communicates with the daemon through the Docker Engine API.
+5. The daemon manages container creation and lifecycle operations and obtains images from a registry when necessary.
+6. Understanding the concepts is more important than memorising commands without knowing what they do.
